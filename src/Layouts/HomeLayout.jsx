@@ -1,10 +1,28 @@
 import {FiMenu} from 'react-icons/fi'
 import {AiFillCloseCircle} from 'react-icons/ai'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
+import { useDispatch, useSelector } from 'react-redux';
 
 // this is sidebar
 function HomeLayout({children}){
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    // check if user is logged in
+    const isLoggedIn = useSelector((state)=>state?.auth?.isLoggedIn);
+
+    // for displaying roles
+    const role = useSelector((state)=>state?.auth?.role);
+
+    // function to implement log-out
+    function handleLogout(e){
+        e.preventDefault();
+
+        navigate('/');
+    }
+
 
     function changeWidth(){
         const drawerSide = document.getElementsByClassName('drawer-side');
@@ -18,7 +36,8 @@ function HomeLayout({children}){
         console.log(element);
         element[0].checked = false;
         
-
+        const drawerSide = document.getElementsByClassName('drawer-side');
+        drawerSide[0].style.width = '0';
     }
 
     return(
@@ -47,6 +66,13 @@ function HomeLayout({children}){
                             <li>
                                 <Link to='/'>Home</Link>
                             </li>
+
+                            {isLoggedIn && role==='ADMIN' && (
+                                <li>
+                                    <Link to='/admin/dashboard'>Admin Dashboard</Link>
+                                </li>
+                            )}
+
                             <li>
                                 <Link to='/courses'>All Courses</Link>
                             </li>
@@ -56,6 +82,34 @@ function HomeLayout({children}){
                             <li>
                                 <Link to='/contact'>Contact us</Link>
                             </li>
+
+                            {/* if not logged in show login , signup button */}
+                            {!isLoggedIn && (
+                                <li className='w-[67%]'>
+                                    <div className='w-full flex items-center justify-center gap-4'>
+                                        <button className='btn-primary px-4 py-1 font-semibold rounded-md'>
+                                            <Link to='/login'>Login</Link>
+                                        </button>
+                                        <button className='btn-secondary px-4 py-1 font-semibold rounded-md'>
+                                            <Link to='/signup'>Signup</Link>
+                                        </button>
+                                    </div>
+                                </li>
+                            )}
+
+                            {/* if logged in show profile , logout button */}
+                            {isLoggedIn && (
+                                <li className='w-[67%]'>
+                                    <div className='w-full flex items-center justify-center gap-4'>
+                                        <button className='btn-primary px-4 py-1 font-semibold rounded-md'>
+                                            <Link to='/user/profile'>Profile</Link>
+                                        </button>
+                                        <button className='btn-secondary px-4 py-1 font-semibold rounded-md'>
+                                            <Link onClick={handleLogout}>Logout</Link>
+                                        </button>
+                                    </div>
+                            </li>
+                            )}
                         </ul>
                     </div>
                 </div>

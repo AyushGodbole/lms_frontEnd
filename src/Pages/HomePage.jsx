@@ -10,7 +10,7 @@ function HomePage(){
             <div className="pt=10 text-white flex items-center justify-center gap-10 mx-16 h-[90vh]">
                 {/* online courses content */}
                 <div className="w-1/2 space-y-6">
-                    <h1 className="text-5xl font-semibold">
+                    <h1 className="text-5xl font-semibold flex gap-3">
                         Find out best
                         <span className="text-yellow-500 font-bold">
                             Online Courses
