@@ -1,3 +1,4 @@
+// Slices take name of slice , initial state , reducers of that slice which can be used anywhere
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

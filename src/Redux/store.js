@@ -1,3 +1,5 @@
+// this store.js is used to keep multiple reducers together.
+
 import { configureStore } from "@reduxjs/toolkit";
 import authSliceReducer from './Slices/Authslice'
 
