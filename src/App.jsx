@@ -1,9 +1,8 @@
 import './App.css'
 import {Route, Routes} from 'react-router-dom'
-import Footer from './Components/Footer'
-import HomeLayout from './Layouts/HomeLayout'
 import HomePage from './Pages/HomePage'
 import AboutUs from './Pages/AboutUsPage'
+import NotFound from './Pages/NotFound'
 function App() {
 
   return (
@@ -11,6 +10,9 @@ function App() {
       <Routes>
           <Route path='/' element={<HomePage />}/>
           <Route path='/about' element={<AboutUs />} />
+
+          {/* if path not found */}
+          <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   )
