@@ -3,6 +3,7 @@ import {AiFillCloseCircle} from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
+import { logOut } from '../Redux/Slices/Authslice';
 
 // this is sidebar
 function HomeLayout({children}){
@@ -17,10 +18,16 @@ function HomeLayout({children}){
     const role = useSelector((state)=>state?.auth?.role);
 
     // function to implement log-out
-    function handleLogout(e){
+    async function handleLogout(e){
         e.preventDefault();
 
-        navigate('/');
+        const response = await dispatch(logOut());
+        if(response?.payload?.success){
+            // console.log(response);
+            // then go to home page and reset value
+            navigate('/');
+        }
+        // navigate('/');
     }
 
 
