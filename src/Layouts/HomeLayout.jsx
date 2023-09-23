@@ -13,6 +13,7 @@ function HomeLayout({children}){
 
     // check if user is logged in
     const isLoggedIn = useSelector((state)=>state?.auth?.isLoggedIn);
+    // console.log('yaya',isLoggedIn)
 
     // for displaying roles
     const role = useSelector((state)=>state?.auth?.role);

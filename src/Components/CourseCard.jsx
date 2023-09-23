@@ -7,7 +7,7 @@ function CourseCard({data}){
             onClick={()=>navigate('/course/description/')} className="text-white w-[26rem] h-[485px] shadow-lg rounded-lg cursor-pointer group overflow-hidden">
             <div className="overflow-hidden">
                 <img
-                 className="h-48 w-full rounded-tl-lg rounded-tr-lg group-hover-scale=[1,2] transition-all ease-in-out" 
+                 className="h-[18rem] w-full rounded-tl-lg rounded-tr-lg group-hover-scale=[1,2] transition-all ease-in-out" 
                  src={data?.thumbNail?.secure_url} 
                  alt="course-thumbnail" />
 

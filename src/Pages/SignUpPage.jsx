@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {toast} from 'react-hot-toast';
 import { createUserAccount } from "../Redux/Slices/Authslice";
+import { isEmailValid, isPasswordValid } from "../Helper/regex";
 
 function SignUp(){
 
@@ -67,13 +68,13 @@ function SignUp(){
         }
 
         // email validations
-        if(!signupData.email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+        if(!isEmailValid(signupData.email)){
             toast.error('invalid email!');
             return;
         }
 
         // password validations
-        if(!signupData.password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/)){
+        if(!isPasswordValid(signupData.password)){
             toast.error('password should be of atleast 8 character , use of special and alphanumberic values');
             return
         }
