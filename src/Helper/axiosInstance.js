@@ -1,3 +1,4 @@
+// axios is same as fetch
 import axios from "axios";
 
 // backend url to hit
