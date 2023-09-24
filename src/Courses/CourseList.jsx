@@ -8,6 +8,7 @@ import CourseCard from '../Components/CourseCard';
 function CourseList(){
     const dispatch = useDispatch();
 
+    // destructuring is done
     const {courseData} = useSelector((state)=>state?.course);
     console.log('haha',courseData)
 

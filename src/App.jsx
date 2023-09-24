@@ -8,6 +8,7 @@ import Login from './Pages/LoginPage'
 import CourseList from './Courses/CourseList'
 import ContactUs from './Pages/ContactUs'
 import Denied from './Pages/Denied'
+import CourseDescription from './Courses/CourseDescription'
 function App() {
 
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path='/login' element={<Login />} />
 
           <Route path='/courses' element={<CourseList />} />
+          <Route path='/course/description' element={<CourseDescription />} />
 
           <Route path='/contact' element={<ContactUs />} />
 
