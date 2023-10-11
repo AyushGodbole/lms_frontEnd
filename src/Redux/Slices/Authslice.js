@@ -7,7 +7,7 @@ import axiosInstance from '../../Helper/axiosInstance'
 const initialState = {
     isLoggedIn : localStorage.getItem('isLoggedIn')||false,
     role : localStorage.getItem('role')||"",
-    data : localStorage.getItem('data')||{}
+    data : localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : {}
 }
 
 export const createUserAccount = createAsyncThunk('/auth/signup',async (data)=>{
@@ -66,6 +66,35 @@ export const logOut = createAsyncThunk('/auth/logout',async ()=>{
     }
 })
 
+export const updateProfile = createAsyncThunk('/auth/update/profile',async (data)=>{
+    try {
+        // console.log(JSON.parse(data[0])," ",data[1]);
+        // console.log('lala',JSON.parse(data));
+        const res = axiosInstance.put(`/user/update/${data[0]}`,data[1]);
+
+        toast.promise(res,{
+            loading:'wait update in process!',
+            success:(data)=>{
+                return data?.data?.message;
+            },
+            error:'failed to update profile!'
+        })
+
+        return (await res).data
+    } catch (error) {
+        toast.error(error?.response?.message);
+    }
+})
+
+export const getUserDetails = createAsyncThunk('/auth/details',async ()=>{
+    try {
+        const res = axiosInstance.get(`/user/me`);
+        return (await res).data
+    } catch (error) {
+        toast.error(error.message);
+    }
+})
+
 // creating authSlice
 const authSlice = createSlice({
     // giving name to the slice
@@ -78,7 +107,9 @@ const authSlice = createSlice({
         builder
         .addCase(login.fulfilled,(state,action)=>{
             // console.log('DATA',action)
-            localStorage.setItem('data',action?.payload?.data);
+            // console.log('aghagga',JSON.stringify(action?.payload?.data));
+            const obtainedData = JSON.stringify(action?.payload?.data)
+            localStorage.setItem('data',obtainedData);
             localStorage.setItem('isLoggedIn',true);
             localStorage.setItem('role',action?.payload?.data?.role);
             state.data=action?.payload?.data;
@@ -90,6 +121,16 @@ const authSlice = createSlice({
             state.data = {};
             state.isLoggedIn = false;
             state.role = "";
+        })
+        .addCase(getUserDetails.fulfilled,(state,action)=>{
+            if(!action?.payload?.data) return
+            const obtainedData = JSON.stringify(action?.payload?.data)
+            localStorage.setItem('data',obtainedData);
+            localStorage.setItem('isLoggedIn',true);
+            localStorage.setItem('role',action?.payload?.data?.role);
+            state.data=action?.payload?.data;
+            state.isLoggedIn=true
+            state.role=action?.payload?.data?.role
         })
     }
 })
