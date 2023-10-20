@@ -1,10 +1,11 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import HomeLayout from "../Layouts/HomeLayout";
 import { useSelector } from "react-redux";
  
 function CourseDescription(){
     // accepts data sended in useNavigate() method
     const {state} = useLocation();
+    const navigate = useNavigate();
 
     // destructuring is done
     const {role,data} = useSelector((state)=>state?.auth);
@@ -37,7 +38,7 @@ function CourseDescription(){
                             {role==='ADMIN' || data?.subscription?.status==='ACTIVE' ? (
                                 <button className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500">Watch Lectures</button>
                             ):
-                                <button className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500">Subscribe</button>
+                                <button onClick={()=>navigate('/checkout')} className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500">Subscribe</button>
                             }
 
                         </div>
