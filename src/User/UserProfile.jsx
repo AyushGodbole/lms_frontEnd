@@ -1,12 +1,25 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import HomeLayout from "../Layouts/HomeLayout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { cancelCourseBundle } from "../Redux/Slices/RazorpaySlice";
+import { getUserDetails } from "../Redux/Slices/Authslice";
+import toast from "react-hot-toast";
 
 function UserProfile(){
 
     const userData = useSelector((state)=>state?.auth?.data);
     console.log(userData);
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    async function handleCancelSubsciption(){
+        await dispatch(cancelCourseBundle());
+        await dispatch(getUserDetails())
+        toast.success("Cancellation completed");
+        navigate('/');
+    }
 
     return (
         <HomeLayout>
@@ -41,9 +54,11 @@ function UserProfile(){
                             <button>Edit Profile</button>
                         </Link>
                     </div>
+                    
+                    {console.log('pika',userData.subscription)}
 
-                    {userData?.subscription?.state==='active' && (
-                        <button className="w-full  bg-red-600 hover:bg-red-500 transition-all ease-in-out duration-300 rounded-sm font-semibold cursor-pointer p-3 text-center">
+                    {userData?.subscription?.status==='active' && (
+                        <button onClick={handleCancelSubsciption} className="w-full  bg-red-600 hover:bg-red-500 transition-all ease-in-out duration-300 rounded-sm font-semibold cursor-pointer p-3 text-center">
                             Cancel Subscription
                         </button>
                     )}

@@ -15,6 +15,7 @@ import UserProfile from './User/UserProfile'
 import EditProfile from './User/EditProfile'
 import Checkout from './Payment/Checkout'
 import Checkoutsuccess from './Payment/Checkoutsuccess'
+import Checkoutfailure from './Payment/Checkoutfailure'
 function App() {
 
   return (
@@ -40,6 +41,7 @@ function App() {
                 <Route path='/user/editprofile' element={<EditProfile />} />
                 <Route path='/checkout' element={<Checkout />} />
                 <Route path='/checkout/success' element={<Checkoutsuccess />} />
+                <Route path='/checkout/fail' element={<Checkoutfailure />} />
           </Route>
 
           <Route path='/denied' element={<Denied />} />
