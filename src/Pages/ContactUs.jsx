@@ -1,11 +1,18 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import HomeLayout from "../Layouts/HomeLayout"
 import toast from 'react-hot-toast'
 import { isEmailValid } from "../Helper/regex";
 import axiosInstance from "../Helper/axiosInstance";
+import { useDispatch } from "react-redux";
+import { contact } from "../Redux/Slices/Authslice";
+import { useNavigate } from "react-router-dom";
 
 function ContactUs(){
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+   
     const [userInput,setUserInput] = useState({
         name:'',
         email:'',
@@ -34,28 +41,16 @@ function ContactUs(){
             return;
         }
 
-        // calling backend api now
-        try {
-            const response = axiosInstance.post('/contact',userInput);
-            toast.promise(response,{
-                loading:'Submitting your message...',
-                success:'Form submitted successfully',
-                error:'Failed to submit form'
-            })
-            
-            // acknoledment
-            const contactResponse = response;
-            if(contactResponse?.data?.success){
-                setUserInput({
-                    name:'',
-                    email:'',
-                    message:''
-                })
-            }
+        const res = await dispatch(contact(userInput));
 
-        } catch (error) {
-            toast.error("Operation Failed!");
+        if(res.payload.success){
+            setUserInput({
+                name:'',
+                email:'',
+                message:'',
+            })
         }
+        navigate('/');
     }
 
     return (

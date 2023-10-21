@@ -60,6 +60,8 @@ function EditProfile(){
         formData.append('fullName',userData.fullName);
         formData.append('avatar',userData.avatar);
 
+        console.log('formData',formData);
+
         // console.log("My form data ",formData);
 
         await dispatch(updateProfile([userData.userId,formData]));

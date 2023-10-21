@@ -96,6 +96,24 @@ export const getUserDetails = createAsyncThunk('/auth/details',async ()=>{
     }
 })
 
+export const contact = createAsyncThunk('/feedback/contact',async(data)=>{
+    try {
+        const response = axiosInstance.post('/user/contact',data);
+        
+        toast.promise(response,{
+            loading:'Submitting your message',
+            success:(data)=>{
+                return data?.data?.message;
+            },
+            error:'Failed to send message'
+        })
+
+        return (await response).data
+    } catch (error) {
+        toast.error("Operation Failed!",error);
+    }
+})
+
 // creating authSlice
 const authSlice = createSlice({
     // giving name to the slice
