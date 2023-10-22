@@ -4,6 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authSliceReducer from './Slices/Authslice'
 import courseSliceReducer from "./Slices/CourseSlice";
 import razorpaySliceReducer from './Slices/RazorpaySlice';
+import lectureSliceReducer from "./Slices/LectureSlice";
 
 // creating store
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
         auth : authSliceReducer,
         course:courseSliceReducer,
         razorpay:razorpaySliceReducer,
+        lecture : lectureSliceReducer,
     },
     devTools:true
 });
