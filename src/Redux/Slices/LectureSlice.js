@@ -3,12 +3,12 @@ import toast from "react-hot-toast"
 import axiosInstance from "../../Helper/axiosInstance"
 
 const initialState = {
-    lecture:[],
+    lectures:[],
 }
 
-export const getCourseLecture = createAsyncThunk('/course/lecture/get', async(cid)=>{
+export const getCourseLecture = createAsyncThunk('/course/lecture/get', async(courseId)=>{
     try {
-        const response = await axiosInstance.get(`/course/:${cid}`);
+        const response = axiosInstance.get(`/course/${courseId}`);
 
         toast.promise(response,{
             loading:'Fetching Course Lectures',
@@ -16,7 +16,8 @@ export const getCourseLecture = createAsyncThunk('/course/lecture/get', async(ci
             error: 'Failed to Fetch Lectures'
         });
 
-        return response.data;
+        // console.log('res',(await response).data);
+        return (await response).data;
     } catch (error) {
         toast.error(error?.response?.data?.message);
     }
@@ -31,7 +32,7 @@ export const addCourseLecture = createAsyncThunk('/course/lecture/add', async(da
     formData.append('description',data.description);
 
     try {
-        const response = await axiosInstance.post(`/course/:${data.id}`,formData);
+        const response =  axiosInstance.post(`/course/${data.id}`,formData);
 
         toast.promise(response,{
             loading:'Adding Course Lecture',
@@ -39,7 +40,7 @@ export const addCourseLecture = createAsyncThunk('/course/lecture/add', async(da
             error: 'Failed to Add Lecture'
         });
 
-        return response.data;
+        return (await response).data;
     } catch (error) {
         toast.error(error?.response?.data?.message);
     }
@@ -48,7 +49,7 @@ export const addCourseLecture = createAsyncThunk('/course/lecture/add', async(da
 export const deleteCourseLecture = createAsyncThunk('/course/lecture/delete', async(data)=>{
 
     try {
-        const response = await axiosInstance.delete(`/course?courseId=${data.courseId}&lectureId=${data.lectureId}`);
+        const response = axiosInstance.post(`/course/delete/lecture`,data);
 
         toast.promise(response,{
             loading:'Deleting Course Lecture',
@@ -56,7 +57,7 @@ export const deleteCourseLecture = createAsyncThunk('/course/lecture/delete', as
             error: 'Failed to Delete Lecture'
         });
 
-        return response.data;
+        return (await response).data;
     } catch (error) {
         toast.error(error?.response?.data?.message);
     }
@@ -67,13 +68,18 @@ const lectureSlice = createSlice({
     initialState,
     reducers:{},
     extraReducers:(builder)=>{
-        builder.addCase(getCourseLecture.fulfilled,(state,action)=>{
-            console.log(action);
-            state.lecture = action?.payload?.lecturesfound;
+        builder
+        .addCase(getCourseLecture.fulfilled,(state,action)=>{
+            console.log('state',state)
+            console.log('action',action);
+            state.lectures = action?.payload?.lectures;
         })
         .addCase(addCourseLecture.fulfilled,(state,action)=>{
             console.log(action);
-            state.lecture = action?.payload?.lectureData
+            state.lectures = action?.payload?.lectureData
+        })
+        .addCase(deleteCourseLecture.fulfilled,(state,action)=>{
+            state.lectures = action?.payload?.lectures;
         })
     }
 })

@@ -128,6 +128,7 @@ const authSlice = createSlice({
             // console.log('DATA',action)
             // console.log('aghagga',JSON.stringify(action?.payload?.data));
             const obtainedData = JSON.stringify(action?.payload?.data)
+            console.log('state of login',action)
             localStorage.setItem('data',obtainedData);
             localStorage.setItem('isLoggedIn',true);
             localStorage.setItem('role',action?.payload?.data?.role);
